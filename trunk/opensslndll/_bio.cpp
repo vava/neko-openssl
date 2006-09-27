@@ -43,8 +43,6 @@ value _BIO_do_connect(value bp){
 }
 
 //int	BIO_read(BIO *b, void *data, int len);
-
-
 value _BIO_read(value b, value data, value len) {
 	val_check_kind(b, k_pointer);
 	val_check_kind(data, k_pointer);
@@ -58,15 +56,19 @@ value _BIO_set_conn_port(value b, value port) {
 	val_is_int(port);
 	return alloc_best_int(BIO_set_conn_port((BIO*)val_data(b), val_int(port)));
 }
-value test(value str){
 
-	printf("[%d]test:%s",val_is_abstract(str),val_string(str));
-	return VAL_VOID;
+//int	BIO_write(BIO *b, const void *data, int len);
+value _BIO_write(value b, value data, value len) {
+	val_check_kind(b, k_pointer);
+	val_check_kind(data, k_pointer);
+	val_is_int(len);
+	return alloc_int(BIO_write( (BIO*)val_data(b), val_data(data), val_int(len) ));
 }
+
 //Register
 DEFINE_PRIM(_ERR_load_BIO_strings, 0);
 DEFINE_PRIM(_BIO_new_connect, 1);
 DEFINE_PRIM(_BIO_do_connect, 1);
 DEFINE_PRIM(_BIO_read, 3);
 DEFINE_PRIM(_BIO_set_conn_port, 2);
-DEFINE_PRIM(test,1);
+DEFINE_PRIM(_BIO_write, 3);
