@@ -19,27 +19,45 @@ __declspec(dllexport) int mcon () {
 	bio = BIO_new_connect("www.yandex.ru:80");
 	*/
 	
+	SSL_library_init();
 	SSL_CTX * ctx = SSL_CTX_new(SSLv23_client_method());
+	//printf ("Error: %s\n", ERR_reason_error_string(ERR_get_error()));
 	SSL * ssl;
 
 	//Load certificates
-	SSL_CTX_load_verify_locations(ctx, NULL, "E:\openssl-0.9.8c\certs\"");
+	if (!SSL_CTX_load_verify_locations(ctx, NULL,"E:\\openssl-0.9.8c\\certs")){
+		printf ("Error in loading trust store file...");
+	}
 
 	bio = BIO_new_ssl_connect(ctx);
 	BIO_get_ssl(bio, & ssl);
 	SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
-	BIO_set_conn_hostname(bio, "https://www.cvsdude.com:443");
-	
-    int i = BIO_do_connect(bio);
-	
-	printf ("i= %d \n",i);
-	int* buf = &i;
-	int len = 4;
-	int x = BIO_read ( bio, &buf, len);
-	printf ("x = %d\n", x);
-	printf ("buf = %d\n", *buf);
-	//int y = BIO_write ( bio, &buf, len);
-	//printf ("y = %d\n", y);
+	char* host_port = "activate.microsoft.com:443/"; //"https://www.cvsdude.com:443"
+	BIO_set_conn_hostname(bio, host_port);
 
+	printf ("Error1: %s\n", ERR_reason_error_string(ERR_get_error()));
+
+	int r_bio_do_connect = BIO_do_connect(bio);
+	printf ("Error2: %s\n", ERR_reason_error_string(ERR_get_error()));
+	printf ("BIO_do_connect = %d\n",r_bio_do_connect);
+	if (r_bio_do_connect <= 0) {
+		printf ("Connection failed...[%d]\n",r_bio_do_connect);
+	}
+	char* wbuf="get \ \n"; //"get / \r\n";
+	char rbuf [255];
+	int r_bio_write =BIO_write(bio, wbuf, 6);
+	printf ("BIO_write[%s] = %d\n",wbuf,r_bio_write);
+	printf("\n 1 \n");
+	int len=254;
+	printf ("Error3: %s\n", ERR_reason_error_string(ERR_get_error()));
+
+	int r_BIO_read = BIO_read ( bio, rbuf, len);
+
+	printf ("Error4: %s\n", ERR_reason_error_string(ERR_get_error()));
+
+	printf ("BIO_read[%s] = %d\n", rbuf, r_BIO_read);
+
+	printf ("Error5: %s\n", ERR_reason_error_string(ERR_get_error()));
+	BIO_free_all(bio);
 	return 0;
 }

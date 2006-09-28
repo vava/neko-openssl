@@ -7,9 +7,8 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	printf ("_tmain()\n");
-	int x = mcon();
-	printf ("mcon = %d", x);
+	printf ("_tmain()\n Running mcon() :\n");
+	printf ("r_mcon = %d\n", mcon());
 	return 0;
 }
 
