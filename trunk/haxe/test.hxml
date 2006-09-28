@@ -1,2 +1,2 @@
--neko test.n
+-neko ../debug/test.n
 -main Test
