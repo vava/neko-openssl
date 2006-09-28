@@ -10,14 +10,10 @@ DEFINE_KIND(k_pointer);
 
 value _BIO_new_connect(value host_port) {
 	// 4Debug
-	printf("Debug: [string:%s][strlen:%d][is_string:%d]",val_string(host_port),
-											val_strlen(host_port),val_is_string(host_port));
+	//printf("Debug: [string:%s][strlen:%d][is_string:%d]",val_string(host_port),
+	//										val_strlen(host_port),val_is_string(host_port));
 	void* ptr;
-	//try {
-		ptr = BIO_new_connect(val_string(host_port));
-	//} catch (...) {
-	//  printf("in except");
-	//}
+	ptr = BIO_new_connect(val_string(host_port));
 	return alloc_abstract(k_pointer,ptr);
 }
 
@@ -34,13 +30,13 @@ value _ERR_load_BIO_strings() {
 //#define BIO_do_handshake(b)	BIO_ctrl(b,BIO_C_DO_STATE_MACHINE,0,NULL)
 
 value _BIO_do_connect(value bp){
-	val_check_kind(bp, k_pointer);	
-	long result = BIO_do_connect((BIO*)val_data(bp));
-	if (result ==-1)
-		printf("%s\n", ERR_error_string(ERR_get_error(), NULL));
-	else
-		return alloc_best_int(result);
-	//	return VAL_VOID;
+	//val_check_kind(bp, k_pointer);	
+	BIO* bio_bp = (BIO*)val_data(bp);
+	//printf ("bio_bp=[%d]",bio_bp);
+	long result = BIO_do_connect(bio_bp);
+	if (result < 0)
+		printf("Error %s\n", ERR_error_string(ERR_get_error(), NULL));
+	return alloc_best_int(result);
 }
 
 //int	BIO_read(BIO *b, void *data, int len);
