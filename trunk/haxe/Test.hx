@@ -53,7 +53,7 @@ class Test {
 	static var  SSL_CTX_load_verify_locations = neko.Lib.load("opensslndll", "_SSL_CTX_load_verify_locations", 2);
 	static var  BIO_new_ssl_connect = neko.Lib.load("opensslndll","_BIO_new_ssl_connect",1);
 	static var  BIO_get_ssl = neko.Lib.load("opensslndll","_BIO_get_ssl",2);
-	static var  SSL_set_mode = neko.Lib.load("opensslndll", "_SSL_set_mode",2);
+	static var  SSL_set_mode = neko.Lib.load("opensslndll", "_SSL_set_mode",1);
 	static var  SSL_MODE_AUTO_RETRY = neko.Lib.load("opensslndll", "_SSL_MODE_AUTO_RETRY",0);
 	static var  BIO_free_all = neko.Lib.load("opensslndll","_BIO_free_all",1);
 	static var  SSLv23_client_method = neko.Lib.load("opensslndll", "_SSLv23_client_method",0);
@@ -75,15 +75,17 @@ class Test {
 			trace ("Answer SSL_CTX_lvl = " + sclvl);
 							
 			var bio = BIO_new_ssl_connect(ctx);
-			BIO_get_ssl(bio, ssl);
-			SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY());
+			var rbgs = BIO_get_ssl(bio, ssl);
+			trace ("rbgs = " + rbgs);
+			var rssm = SSL_set_mode(ssl/*, SSL_MODE_AUTO_RETRY()*/);
+			trace ("rssm = " + rssm);			
 			var host_port = "activate.microsoft.com:443/";
 			BIO_set_conn_hostname(bio, neko.Lib.haxeToNeko(host_port) );
-			//
-			print(neko.Lib.haxeToNeko("null="),bio);			
-			//
+			
+			//print(neko.Lib.haxeToNeko("null="),bio);			
+			
 			var r_bio_do_connect = BIO_do_connect(bio);
-			trace ("BIO_do_connect = %d\n", r_bio_do_connect);
+			trace ("BIO_do_connect = " + r_bio_do_connect + "\n");
 			/*if (r_bio_do_connect <= 0) {
 				trace ("Connection failed..."+r_bio_do_connect);
 			}

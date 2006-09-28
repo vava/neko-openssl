@@ -46,23 +46,20 @@ value _BIO_new_ssl_connect(value ctx){
 //long	BIO_ctrl(BIO *bp,int cmd,long larg,void *parg);
 
 value _BIO_get_ssl(value b, value sslp){
-	
-	int a1234 = 2;
-	int b1234 = 3;
-	int c________ = a1234+b1234;
-	SSL* ssl = (SSL*)val_data(sslp);
-	return alloc_best_int(BIO_get_ssl((BIO*)val_data(b), & ssl));
+	char* ssl = (char*)val_data(sslp);
+	return alloc_best_int(BIO_get_ssl((BIO*)val_data(b), &ssl));
 }
 
 //#define SSL_set_mode(ssl,op) SSL_ctrl((ssl),SSL_CTRL_MODE,(op),NULL)
 //long	SSL_ctrl(SSL *ssl,int cmd, long larg, void *parg);
-value _SSL_set_mode(value ssl, value op) {
-	return alloc_best_int(SSL_set_mode((SSL*) val_data(ssl), val_int(op)));
+value _SSL_set_mode(value ssl/*, value op*/) {
+	return alloc_best_int(SSL_set_mode((SSL*) val_data(ssl), SSL_MODE_AUTO_RETRY/*val_int(op)*/));
 }
 
 //#define SSL_MODE_AUTO_RETRY 0x00000004L
 value _SSL_MODE_AUTO_RETRY() {
-	return  alloc_best_int(0x00000004L);
+	//return  alloc_best_int(0x00000004L);
+	return alloc_best_int(1);
 }
 
 //SSL_METHOD *SSLv23_client_method(void);
@@ -78,6 +75,6 @@ DEFINE_PRIM(_SSL_CTX_new,1);
 DEFINE_PRIM(_SSL_library_init,0);
 DEFINE_PRIM(_SSL_load_error_strings, 0);
 DEFINE_PRIM(_OpenSSL_add_all_algorithms, 0);
-DEFINE_PRIM(_SSL_set_mode, 2);
+DEFINE_PRIM(_SSL_set_mode, 1);
 DEFINE_PRIM(_SSL_MODE_AUTO_RETRY, 0);
 DEFINE_PRIM(_SSLv23_client_method, 0);
