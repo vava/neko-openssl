@@ -31,9 +31,11 @@ __declspec(dllexport) int mcon () {
 
 	bio = BIO_new_ssl_connect(ctx);
 	BIO_get_ssl(bio, & ssl);
-	SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
+	long rssm = SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
+	printf ("rssm = %d\n",rssm);
 	char* host_port = "activate.microsoft.com:443/"; //"https://www.cvsdude.com:443"
-	BIO_set_conn_hostname(bio, host_port);
+	long rbsch = BIO_set_conn_hostname(bio, host_port);
+	printf ("rbsch= %d\n",rbsch);
 
 	printf ("Error1: %s\n", ERR_reason_error_string(ERR_get_error()));
 

@@ -40,31 +40,40 @@ value _BIO_do_connect(value bp){
 }
 
 //int	BIO_read(BIO *b, void *data, int len);
-value _BIO_read(value b, value data, value len) {
-	val_check_kind(b, k_pointer);
-	val_check_kind(data, k_pointer);
-	val_is_int(len);
-	return alloc_int(BIO_read((BIO*)val_data(b), val_data(data), val_int(len)));
+value _BIO_read(value b, value len) {
+	//val_check_kind(b, k_pointer);
+	//val_check_kind(data, k_pointer);
+	//val_is_int(len);
+	int len_ = val_int(len);
+	printf ("len_= %d\n",len_);
+	char data [255];
+	long response = BIO_read((BIO*)val_data(b), data, len_+1);
+	printf("Error bio read %s\n", ERR_error_string(ERR_get_error(), NULL));
+	printf("BIO_read response= %d \n", response);
+	return alloc_string(data);
 }
 
 //#define BIO_set_conn_port(b,port) BIO_ctrl(b,BIO_C_SET_CONNECT,1,(char *)port)
 value _BIO_set_conn_port(value b, value port) {
-	val_check_kind(b, k_pointer);
-	val_is_int(port);
+	//val_check_kind(b, k_pointer);
+	//val_is_int(port);
 	return alloc_best_int(BIO_set_conn_port((BIO*)val_data(b), val_int(port)));
 }
 
 //int	BIO_write(BIO *b, const void *data, int len);
 value _BIO_write(value b, value data, value len) {
-	val_check_kind(b, k_pointer);
-	val_check_kind(data, k_pointer);
-	val_is_int(len);
-	return alloc_int(BIO_write( (BIO*)val_data(b), val_data(data), val_int(len) ));
+	//val_check_kind(b, k_pointer);
+	//val_check_kind(data, k_pointer);
+	//val_is_int(len);
+	long response = BIO_write((BIO*)val_data(b), val_string(data), val_int(len));
+	printf ("Error bio write: %s\n", ERR_reason_error_string(ERR_get_error()));
+	printf ("BIO_write response: %d\n",response);
+	return alloc_best_int(response);
 }
 
 //#define BIO_set_conn_hostname(b,name) BIO_ctrl(b,BIO_C_SET_CONNECT,0,(char *)name)
 value _BIO_set_conn_hostname(value b, value name) {
-	return alloc_best_int((BIO*) val_data(b), (char*) val_data(name) );
+	return alloc_best_int(BIO_set_conn_hostname((BIO*) val_data(b), val_string(name)) );
 }
 
 //void	BIO_free_all(BIO *a);
@@ -77,7 +86,7 @@ value _BIO_free_all(value a) {
 DEFINE_PRIM(_ERR_load_BIO_strings, 0);
 DEFINE_PRIM(_BIO_new_connect, 1);
 DEFINE_PRIM(_BIO_do_connect, 1);
-DEFINE_PRIM(_BIO_read, 3);
+DEFINE_PRIM(_BIO_read, 2);
 DEFINE_PRIM(_BIO_set_conn_port, 2);
 DEFINE_PRIM(_BIO_write, 3);
 DEFINE_PRIM(_BIO_set_conn_hostname, 2);
