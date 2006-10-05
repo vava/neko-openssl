@@ -63,3 +63,9 @@ __declspec(dllexport) int mcon () {
 	BIO_free_all(bio);
 	return 0;
 }
+
+__declspec(dllexport) int testsocketssl (){
+//	int sock = tcp_connect("activate.microsoft.com", 443);
+
+	return 0;
+}

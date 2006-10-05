@@ -99,6 +99,7 @@ class Https {
 			} else
 				r.open("GET",url,async);
 		} catch( e : Dynamic ) {
+			trace("1");
 			onError(e.toString());
 			return;
 		}
@@ -156,6 +157,7 @@ class Https {
 		try {
 			loader.load( request );
 		}catch( e : Dynamic ){
+			trace(160);
 			onError("Exception: "+Std.string(e));
 		}
 	#else flash
@@ -263,11 +265,19 @@ class Https {
 				b.add(uri);
 		}
 		try {
-			s.connect(SecureSocket.resolve(host),port);
+//Attention------------------------------
+			trace("a1");
+			s.connect(security.SecureSocket.resolve(host),port);
+			trace("a2");			
 			s.write(b.toString());
-			readHttpResponse(api,s);
+			trace("a3");			
+			readHttpResponse(api, s);
+			trace("a4");			
 			s.close();
+			trace("a5");			
+//=============================			
 		} catch( e : Dynamic ) {
+			trace(275);
 			onError(Std.string(e));
 		}
 	}
@@ -277,11 +287,17 @@ class Https {
 		var b = new StringBuf();
 		var k = 4;
 		var s = neko.Lib.makeString(4);
+//Attention-----------------------------------
+		trace("b1");
 		sock.setTimeout(10); // 10 seconds
+		trace("b2");
 		while( true ) {
+			trace("b2h");
 			var p = sock.input.readBytes(s,0,k);
+			trace("b2t");
 			while( p != k )
 				p += sock.input.readBytes(s,p,k - p);
+//================================
 			b.addSub(s,0,k);
 			switch( k ) {
 			case 1:
@@ -335,6 +351,7 @@ class Https {
 				}
 			}
 		}
+		trace("b2-2");
 		var headers = b.toString().split("\r\n");
 		var response = headers.shift();
 		var rp = response.split(" ");
@@ -368,11 +385,14 @@ class Https {
 		var bufsize = 1024;
 		var buf = neko.Lib.makeString(bufsize);
 		api.prepare(size);
+		trace("b3");
 		if( size == null ) {
+//Attention----------------------------------------------		
 			sock.shutdown(false,true);
 			try {
 				while( true ) {
 					var len = sock.input.readBytes(buf,0,bufsize);
+//========================================					
 					if( chunked ) {
 						if( !readChunk(chunk_re,api,buf,len) )
 							break;
@@ -384,7 +404,9 @@ class Https {
 		} else {
 			try {
 				while( size > 0 ) {
+//Attention-----------------------------------------------
 					var len = sock.input.readBytes(buf,0,if( size > bufsize ) bufsize else size);
+//========================================					
 					if( chunked ) {
 						if( !readChunk(chunk_re,api,buf,len) )
 							break;
@@ -460,7 +482,7 @@ class Https {
 #if flash
 #else true
 	public static function request( url : String ) : String {
-		var h = new Http(url);
+		var h = new Https(url);
 	#if js
 		h.async = false;
 	#end

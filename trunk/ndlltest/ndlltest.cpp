@@ -8,7 +8,8 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 	printf ("_tmain()\n Running mcon() :\n");
-	printf ("r_mcon = %d\n", mcon());
+	mcon();
+//	printf ("r_mcon = %d\n", testsocketssl());
 	return 0;
 }
 

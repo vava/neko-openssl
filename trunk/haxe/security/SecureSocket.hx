@@ -24,8 +24,8 @@ class SecureSocket /*extends neko.io.Socket*/ {
 	static var bio;
 	static var ssl;
 
-	public var input(default,null) : neko.io.SocketInput;
-	public var output(default,null) : neko.io.SocketOutput;
+	public var input(default,null) : SecureSocketInput/*neko.io.SocketInput*/;
+	public var output(default,null) : SecureSocketOutput/*neko.io.SocketOutput*/;
 	
 	public function new() {
 		SSL_load_error_strings();
@@ -56,7 +56,7 @@ class SecureSocket /*extends neko.io.Socket*/ {
 	public  function connect(host : Host, port : Int){
 		var host_port = neko.io.Socket.hostToString(host) + ":" + port;
 		//var host_port = "activate.microsoft.com:443/";
-		var rbsch : Int= BIO_set_conn_hostname(bio, neko.Lib.haxeToNeko(host_port) );
+		var rbsch : Int = BIO_set_conn_hostname(bio, neko.Lib.haxeToNeko(host_port));
 		//trace ("rbsch= " + rbsch);
 		var r_bio_do_connect : Int = BIO_do_connect(bio);
 		trace ("BIO_do_connect = " + r_bio_do_connect + "\n");
@@ -64,4 +64,20 @@ class SecureSocket /*extends neko.io.Socket*/ {
 			trace ("Connection failed..."+r_bio_do_connect);
 		}
 	}
+	public static function resolve(host : String) : Host {
+		return host_resolve(untyped host.__s);
+	}
+	public function setTimeout( timeout : Float ) {
+	
+	}
+	public function shutdown( read : Bool, write : Bool ){
+	
+	}
+	public function close() : Void {
+	//	input.close();
+	//	output.close();
+	}
+	private static var host_resolve = neko.Lib.load("std","host_resolve",1);	
+	private static var host_to_string = neko.Lib.load("std","host_to_string",1);	
+	
 }

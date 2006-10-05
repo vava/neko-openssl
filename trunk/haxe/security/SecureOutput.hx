@@ -15,7 +15,7 @@ class SecureOutput extends neko.io.Output {
 	}
 	
 	public override function close() {
-		super.close();
+		//super.close();
 		BIO_free_all(bio); 
 	}	
 	

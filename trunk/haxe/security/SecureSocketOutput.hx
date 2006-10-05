@@ -1,5 +1,5 @@
 package security;
-class SecureSocketOutput extends neko.io.SocketOutput {
+class SecureSocketOutput /*extends neko.io.SocketOutput*/ {
 	var bio : Dynamic;
 	var delegate: SecureOutput;
     
@@ -12,7 +12,7 @@ class SecureSocketOutput extends neko.io.SocketOutput {
 	}
 
 	public function new(bio){
-		super(__s);
+		//super(__s);
 		this.bio = bio;
 		delegate = new SecureOutput(bio);
 	}
