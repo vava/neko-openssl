@@ -1,0 +1,10 @@
+﻿<haxe selected="0">
+  <output name="TestSSLSocket" mode="neko" out="../debug/TestSSLSocket.n" class="TestSSLSocket" lib="" cmd="" main="True" debug="False"></output>
+  <files path="/">
+    <file path="SSLSocket.hx" />
+    <file path="sslsocket.hxml" />
+    <file path="SSLSocketInput.hx" />
+    <file path="SSLSocketOutput.hx" />
+    <file path="TestSSLSocket.hx" />
+  </files>
+</haxe>

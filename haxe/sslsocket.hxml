@@ -1,0 +1,4 @@
+# TestSSLSocket
+-neko ../debug/TestSSLSocket.n
+-main TestSSLSocket
+
