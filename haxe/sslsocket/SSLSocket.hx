@@ -26,7 +26,6 @@ class SSLSocket {
 	}
 	
 	public function new( ?s ) {
-		//Initializing OpenSSL
 		initializeOpenSSL();
 		__s = if( s == null ) socket_new(false) else s;
 		input = new SSLSocketInput(__s);

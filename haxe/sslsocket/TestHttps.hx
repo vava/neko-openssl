@@ -1,7 +1,7 @@
 package sslsocket;
 class TestHttps {
 	static function main() {
-		var https: haxe.Http = new haxe.Http("www.megafonnw.ru:443/ifon/userdata/personal");
+	/*	var https: haxe.Http = new haxe.Http("www.megafonnw.ru:443/ifon/userdata/personal");
 		//var https: haxe.Http = new haxe.Http("activate.microsoft.com:443");
 		var output  = new neko.io.StringOutput();
 		output.close = function() {
@@ -21,6 +21,13 @@ class TestHttps {
 		https.asyncRequest(false, output, new SSLSocket());
 		trace("After async request");		
 	
-		//https.request(false);
+		//https.request(false);*/
+		var i;
+		var s;
+		trace(1);
+		var resp = ohmac(neko.Lib.haxeToNeko("asdfsdf"),1,neko.Lib.haxeToNeko("dfghfdsdf"),2,s,i);
+		trace(resp);
+		trace(2);
 	}
+	private static var ohmac = neko.Lib.load("opensslndll", "_HMAC_EVP_sha1", 6);
 }
