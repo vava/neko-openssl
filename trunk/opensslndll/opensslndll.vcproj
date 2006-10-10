@@ -188,6 +188,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\_evp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\_hmac.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\_ssl.cpp"
 				>
 			</File>
@@ -234,6 +242,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\_hmac.h"
+				>
+			</File>
+			<File
 				RelativePath=".\_ssl.h"
 				>
 			</File>
@@ -246,7 +258,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\evp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\hmac.h"
+				>
+			</File>
+			<File
 				RelativePath=".\neko.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\opensslconf.h"
 				>
 			</File>
 			<File

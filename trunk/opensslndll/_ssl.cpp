@@ -1,5 +1,4 @@
 #include "stdafx.h"
-
 #include "neko.h"
 #include "stdio.h"
 #include "openssl/ssl.h"
@@ -30,9 +29,7 @@ __declspec(dllexport) value _SSL_library_init(){
 }
 //SSL_CTX *SSL_CTX_new(SSL_METHOD *meth);
 __declspec(dllexport) value _SSL_CTX_new(value meth){
-	printf("ssl_ctx_new1 Error %s\n", ERR_error_string(ERR_get_error(), NULL));
 	SSL_CTX* ssl_ctx = SSL_CTX_new((SSL_METHOD*)val_data(meth));
-	printf("ssl_ctx_new2 Error %s\n", ERR_error_string(ERR_get_error(), NULL));
 	return alloc_abstract(k_ssl_ctx_pointer, ssl_ctx);
 }
 //int SSL_CTX_load_verify_locations(SSL_CTX *ctx, const char *CAfile,
@@ -54,12 +51,7 @@ __declspec(dllexport) value _BIO_new_ssl_connect(value ctx){
 __declspec(dllexport) value _BIO_get_ssl(value b/*, value sslp*/){
 	SSL* r_ssl = NULL;
 	long r_bio_get_ssl = BIO_get_ssl((BIO*)val_data(b), &r_ssl);
-	// Debug
-	printf("BIO_get_ssl : %d\n", r_bio_get_ssl);
-	//
 	return alloc_abstract(k_ssl, r_ssl);
-	//char* ssl = (char*)val_data(sslp);
-	//return alloc_best_int(BIO_get_ssl((BIO*)val_data(b), &ssl));
 }
 
 //#define SSL_set_mode(ssl,op) SSL_ctrl((ssl),SSL_CTRL_MODE,(op),NULL)
@@ -67,7 +59,6 @@ __declspec(dllexport) value _BIO_get_ssl(value b/*, value sslp*/){
 
 __declspec(dllexport) value _SSL_set_mode(value ssl, value op) {
 	long response = SSL_set_mode((SSL*) val_data(ssl), val_int(op));
-	printf ("response SSL_set_mode() = %d\n", response);
 	return alloc_best_int(response);
 }
 
@@ -82,19 +73,12 @@ __declspec(dllexport) value _SSLv23_client_method() {
 }
 //SSL *	SSL_new(SSL_CTX *ctx);
 __declspec(dllexport) value _SSL_new(value ssl_ctx){
-	printf("ssl_new1 Error %s\n", ERR_error_string(ERR_get_error(), NULL));
 	SSL* ssl = SSL_new((SSL_CTX*)val_data(ssl_ctx));
-	printf("SSL[%d]\n", ssl);
-	printf("ssl_new2 Error %s\n", ERR_error_string(ERR_get_error(), NULL));
 	return alloc_abstract(k_ssl_ctx, ssl);
 }
 //void	SSL_set_bio(SSL *s, BIO *rbio,BIO *wbio);
 __declspec(dllexport) value _SSL_set_bio(value s, value rbio, value wbio){
-	printf("s[%d], rbio[%d], wbio[%d]\n", val_data(s), val_data(rbio), val_data(wbio));
-	printf("Error %s\n", ERR_error_string(ERR_get_error(), NULL));
 	SSL_set_bio((SSL*)val_data(s), (BIO*)val_data(rbio),(BIO*)val_data(wbio));
-	printf("s[%d], rbio[%d], wbio[%d]\n", val_data(s), val_data(rbio), val_data(wbio));
-	printf("Error %s\n", ERR_error_string(ERR_get_error(), NULL));
 	return VAL_VOID;
 }
 
@@ -105,10 +89,6 @@ __declspec(dllexport) value _BIO_NOCLOSE(){
 //int 	SSL_connect(SSL *ssl);
 __declspec(dllexport) value _SSL_connect(value ssl){
 	int rsc = SSL_connect((SSL*) val_data(ssl));
-	printf("[%d]Error %s\n", rsc, ERR_error_string(ERR_get_error(), NULL));
-	//
-	printf ("Sock errors: %d\n", GetLastError());
-	//
 	return alloc_int(rsc);
 }
 //void SSL_CTX_set_verify(SSL_CTX *ctx,int mode,
@@ -128,29 +108,129 @@ __declspec(dllexport) value _SSL_CTX_set_verify_depth(value ctx, value depth) {
 	return VAL_VOID;
 }
 //int 	SSL_read(SSL *ssl,void *buf,int num);
-value _SSL_read(value ssl, value buf, value num){
+__declspec(dllexport) value _SSL_read(value ssl, value buf, value num){
 	return alloc_int(SSL_read((SSL*) val_data(ssl), val_data(buf), val_int(num)));
 }
 //int 	SSL_write(SSL *ssl,const void *buf,int num);
-value _SSL_write(value ssl, const value buf, value num){
+__declspec(dllexport) value _SSL_write(value ssl, const value buf, value num){
 	return alloc_int(SSL_write((SSL*) val_data(ssl), val_data(buf), val_int(num)));
 }
+
+__declspec(dllexport) value __SSL_write(value ssl, value data){
+	const char *cdata;
+	int datalen, slen;
+/*	val_check_kind(o,k_socket);
+	val_check(data,string);*/
+	cdata = val_string(data);
+	datalen = val_strlen(data);
+	while( datalen > 0 ) {
+		slen = SSL_write((SSL*)val_data(ssl), cdata, datalen);
+		//if( slen == SOCKET_ERROR )
+		//	return block_error();
+		cdata += slen;
+		datalen -= slen;
+	}
+	return val_true;
+}
+
+__declspec(dllexport) value __SSL_read(value ssl){
+	buffer b;
+	char buf[256];
+	int len;
+	//val_check_kind(o,k_socket);
+	b = alloc_buffer(NULL);
+	while( true ) {
+		len = SSL_read((SSL*)val_data(ssl), buf, 256);
+		//if( len == SOCKET_ERROR )
+		//	return block_error();
+		if( len == 0 )
+			break;
+		buffer_append_sub(b,buf,len);
+	}
+	return buffer_to_string(b);
+}
+__declspec(dllexport) value SSL_send_char( value ssl, value v ) {
+	int c;
+	unsigned char cc;
+	//val_check_kind(o,k_socket);
+	//val_check(v,int);
+	c = val_int(v);
+	//if( c < 0 || c > 255 ) neko_error();
+	cc = (unsigned char)c;
+	//if( send(val_sock(o),&cc,1,MSG_NOSIGNAL) == SOCKET_ERROR )	return block_error();
+	SSL_write ((SSL*)val_data(ssl), &cc, 1);
+	return val_true;
+}
+__declspec(dllexport) value SSL_send( value ssl, value data, value pos, value len ) {
+	int p,l,dlen;
+	//val_check_kind(o,k_socket);
+	//val_check(data,string);
+	//val_check(pos,int);
+	//val_check(len,int);
+	p = val_int(pos);
+	l = val_int(len);
+	dlen = val_strlen(data);
+	if( p < 0 || l < 0 || p > dlen || p + l > dlen ) neko_error();
+	//dlen = send(val_sock(o), val_string(data) + p , l, MSG_NOSIGNAL);
+	dlen = SSL_write((SSL*) ssl, val_string(data)+p, l);
+	//if( dlen == SOCKET_ERROR )
+	//	return block_error();
+	return alloc_int(dlen);
+}
+
+__declspec(dllexport) value SSL_recv( value ssl, value data, value pos, value len ) {
+	int p,l,dlen;
+	//val_check_kind(o,k_socket);
+	//val_check(data,string);
+	//val_check(pos,int);
+	//val_check(len,int);
+	p = val_int(pos);
+	l = val_int(len);
+	dlen = val_strlen(data);
+	if( p < 0 || l < 0 || p > dlen || p + l > dlen )
+		neko_error();
+	dlen = SSL_read((SSL*)val_data(ssl), val_string(data) + p , l);//, MSG_NOSIGNAL);
+	//if( dlen == SOCKET_ERROR )
+	//	return block_error();
+	return alloc_int(dlen);
+}
+
+__declspec(dllexport) value SSL_recv_char( value ssl ) {
+	unsigned char cc;
+	//val_check_kind(o,k_socket);
+	//if(
+	int res = SSL_read((SSL*)val_data(ssl),&cc,1);/*,MSG_NOSIGNAL)*/ //<= 0 
+		//) return block_error();
+	return alloc_int(cc);
+}
+//int SSL_shutdown(SSL *s);
+__declspec(dllexport) value _SSL_shutdown(value ssl) {
+	return alloc_int(SSL_shutdown((SSL*)val_data(ssl)));
+}
+
 //Register
-DEFINE_PRIM(_SSL_read,  3);
-DEFINE_PRIM(_SSL_write, 3);
-DEFINE_PRIM(_SSL_CTX_set_verify_depth, 2);
-DEFINE_PRIM(_SSL_set_fd, 2);
-DEFINE_PRIM(_SSL_connect, 1);
-DEFINE_PRIM(_BIO_NOCLOSE, 0);
-DEFINE_PRIM(_SSL_set_bio, 3);
-DEFINE_PRIM(_SSL_new, 1);
-DEFINE_PRIM(_BIO_get_ssl,1);
-DEFINE_PRIM(_BIO_new_ssl_connect,1);
-DEFINE_PRIM(_SSL_CTX_load_verify_locations,2) //!!
-DEFINE_PRIM(_SSL_CTX_new,1);
-DEFINE_PRIM(_SSL_library_init,0);
 DEFINE_PRIM(_SSL_load_error_strings, 0);
 DEFINE_PRIM(_OpenSSL_add_all_algorithms, 0);
+DEFINE_PRIM(_SSL_library_init,0);
+DEFINE_PRIM(_SSL_CTX_new,1);
+DEFINE_PRIM(_SSL_CTX_load_verify_locations,2) //!!
+DEFINE_PRIM(_BIO_new_ssl_connect,1);
+DEFINE_PRIM(_BIO_get_ssl,1);
 DEFINE_PRIM(_SSL_set_mode, 2);
 DEFINE_PRIM(_SSL_MODE_AUTO_RETRY, 0);
 DEFINE_PRIM(_SSLv23_client_method, 0);
+DEFINE_PRIM(_SSL_new, 1);
+DEFINE_PRIM(_SSL_set_bio, 3);
+DEFINE_PRIM(_BIO_NOCLOSE, 0);
+DEFINE_PRIM(_SSL_connect, 1);
+DEFINE_PRIM(_SSL_set_fd, 2);
+DEFINE_PRIM(_SSL_CTX_set_verify_depth, 2);
+DEFINE_PRIM(_SSL_read,  3);
+DEFINE_PRIM(_SSL_write, 3);
+DEFINE_PRIM(__SSL_write, 2);
+DEFINE_PRIM(__SSL_read, 1);
+DEFINE_PRIM(SSL_send_char, 2);
+DEFINE_PRIM(SSL_send, 4);
+DEFINE_PRIM(SSL_recv, 4);
+DEFINE_PRIM(SSL_recv_char, 1);
+DEFINE_PRIM(_SSL_shutdown, 1);

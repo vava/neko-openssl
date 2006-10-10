@@ -1,0 +1,38 @@
+static value socket_new( value udp ) {
+	SOCKET s;
+	val_check(udp,bool);
+	if( val_bool(udp) )
+		s = socket(AF_INET,SOCK_DGRAM,0);
+	else
+		s = socket(AF_INET,SOCK_STREAM,0);
+	if( s == INVALID_SOCKET )
+		neko_error();
+#	ifdef NEKO_MAC
+	setsockopt(s,SOL_SOCKET,SO_NOSIGPIPE,NULL,0);
+#	endif
+	return alloc_abstract(k_socket,(value)(int_val)s);
+}
+static value socket_connect( value o, value host, value port ) {
+	struct sockaddr_in addr;
+	val_check_kind(o,k_socket);
+	val_check(host,int32);
+	val_check(port,int);
+	memset(&addr,0,sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(val_int(port));
+	*(int*)&addr.sin_addr.s_addr = val_int32(host);
+	if( connect(val_sock(o),(struct sockaddr*)&addr,sizeof(addr)) != 0 )
+		return block_error();
+	return val_t
+}
+//==============================================================================
+ sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+ CHK_ERR(sock, "socket");
+
+ memset (&server_addr, '\0', sizeof(server_addr));
+ server_addr.sin_family      = AF_INET;
+ server_addr.sin_port        = htons(s_port);       /* Server Port number */
+ server_addr.sin_addr.s_addr = inet_addr(s_ipaddr); /* Server IP */
+ 
+ err = connect(sock, (struct sockaddr*) &server_addr, sizeof(server_addr));
+ CHK_ERR(err, "connect");
