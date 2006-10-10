@@ -17,14 +17,16 @@ __declspec(dllexport) value _HMAC(const value evp_md, const value key, value key
 		);
 }
 
-__declspec(dllexport) value _HMAC_EVP_sha1(const value key, value key_len,
-		   const value d, value n, value md, value md_len) {
-	return alloc_abstract(k_unsigned_char, 
-		HMAC(EVP_sha1(), val_data(key), val_int(key_len),
-		(unsigned char*) val_data(d), val_int(n), (unsigned char*) val_data(md),
-		 (unsigned int*) val_data(md_len))
-		);
+
+__declspec(dllexport) value 
+_HMAC_EVP_sha1(value key, value d) {
+	unsigned int tmp;
+	unsigned char md [255];
+	HMAC(EVP_sha1(), val_string(key), strlen(val_string(key)),
+			(unsigned char*)val_string(d), strlen(val_string(d)),md, &tmp);
+	md[tmp]='\0';
+	return alloc_string((char*)md);
 }
 
 DEFINE_PRIM (_HMAC, 7);
-DEFINE_PRIM (_HMAC_EVP_sha1, 6);
+DEFINE_PRIM (_HMAC_EVP_sha1, 2);
