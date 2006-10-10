@@ -1,4 +1,4 @@
-# TestSSLSocket
--neko ../debug/TestSSLSocket.n
--main TestSSLSocket
+# 
+-neko ../debug/TestHttps.n
+-main sslsocket.TestHttps
 
