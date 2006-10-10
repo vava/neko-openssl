@@ -1,7 +1,43 @@
-package sslsocket;
-package sslsocket;
+/*
+ * Copyright (c) 2005, The haXe Project Contributors
+ * All rights reserved.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *   - Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE HAXE PROJECT CONTRIBUTORS "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE HAXE PROJECT CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE.
+ */
+package haxe;
 
-class Https {
+#if neko
+import neko.io.Socket.Host;
+private typedef AbstractSocket = {
+	var input(default,null) : neko.io.Input;
+	function setTimeout( t : Float ) : Void;	
+	function close() : Void;
+	function shutdown( read : Bool, write : Bool ) : Void;
+	function write( content : String ) : Void;
+	function connect(host : Host, port : Int) : Void;
+}
+#end
+
+class Http {
+
 	public var url : String;
 #if neko
 	var responseHeaders : Hash<String>;
@@ -182,21 +218,25 @@ class Https {
 
 #if neko
 
-	public function asyncRequest( post : Bool, api : neko.io.Output ) {
+	public function asyncRequest( post : Bool, api : neko.io.Output, ?sock : AbstractSocket  ) {
 		var url_regexp = ~/^(http:\/\/)?([a-zA-Z\.0-9-]+)(:[0-9]+)?(.*)$/;
 		if( !url_regexp.match(url) ) {
 			onError("Invalid URL");
 			return;
 		}
+		if( sock == null )
+			sock = new neko.io.Socket();
 		var host = url_regexp.matched(2);
 		var portString = url_regexp.matched(3);
 		var request = url_regexp.matched(4);
 		if( request == "" )
 			request = "/";
 		var port = if( portString == "" ) 80 else Std.parseInt(portString.substr(1,portString.length-1));
-		var s = new SSLSocket();
+	
+		//var s = new neko.io.Socket();
+		//var s = new sslsocket.SSLSocket();
+		var s = sock;
 		var data;
-
 		var uri = null;
 		for( p in params.keys() ) {
 			if( uri == null )
@@ -239,16 +279,17 @@ class Https {
 				b.add(uri);
 		}
 		try {
-			s.connect(SSLSocket.resolve(host),port);
+			s.connect(neko.io.Socket.resolve(host),port);
 			s.write(b.toString());
 			readHttpResponse(api,s);
 			s.close();
 		} catch( e : Dynamic ) {
+			try s.close() catch( e : Dynamic ) { };
 			onError(Std.string(e));
 		}
 	}
 
-	function readHttpResponse( api : neko.io.Output, sock : SSLSocket ) {
+	function readHttpResponse( api : neko.io.Output, sock : AbstractSocket ) {
 		// READ the HTTP header (until \r\n\r\n)
 		var b = new StringBuf();
 		var k = 4;
@@ -335,10 +376,11 @@ class Https {
 			else
 				responseHeaders.set(hname,a.join(": "));
 		}
+		//var size = Std.parseInt(responseHeaders.get("Content-Length"));
 		var size = if (responseHeaders.get("Content-Length") != null)
-			Std.parseInt(responseHeaders.get("Content-Length")); else 
-			Std.parseInt(responseHeaders.get("content-length"));
-		
+						Std.parseInt(responseHeaders.get("Content-Length"));
+					else Std.parseInt(responseHeaders.get("content-length"));
+
 		var chunked = responseHeaders.get("Transfer-Encoding") == "chunked";
 		var chunk_re = ~/^([0-9A-Fa-f]+)[ ]*\r\n/m;
 		chunk_size = null;
@@ -351,7 +393,7 @@ class Https {
 			sock.shutdown(false,true);
 			try {
 				while( true ) {
-					var len = sock.input.readBytes(buf, 0, bufsize);
+					var len = sock.input.readBytes(buf,0,bufsize);
 					if( chunked ) {
 						if( !readChunk(chunk_re,api,buf,len) )
 							break;
@@ -439,7 +481,7 @@ class Https {
 #if flash
 #else true
 	public static function request( url : String ) : String {
-		var h = new Https(url);
+		var h = new Http(url);
 	#if js
 		h.async = false;
 	#end
