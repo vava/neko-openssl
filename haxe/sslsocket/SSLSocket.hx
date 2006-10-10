@@ -62,12 +62,8 @@ class SSLSocket {
 			output.ssl = ssl;
 			
 			var sbio = BIO_new_socket(__s, BIO_NOCLOSE());
-						
 			SSL_set_bio(ssl, sbio, sbio);
-						
 			var rsc : Int = SSL_connect(ssl);
-			trace("rsc: "+ rsc);
-			
 		} catch( s : String ) {
 			if( s == "std@socket_connect" )
 				throw "Failed to connect on "+(try reverse(host) catch( e : Dynamic ) hostToString(host))+":"+port;
