@@ -32,8 +32,8 @@ class SSLSocketInput extends neko.io.Input {
 		if( __s != null ) socket_close(__s);
 	}
 
-	private static var socket_recv = neko.Lib.load("opensslndll","SSL_recv",4);
-	private static var socket_recv_char = neko.Lib.load("opensslndll", "SSL_recv_char",1);
+	private static var socket_recv = neko.Lib.load("openssl","SSL_recv",4);
+	private static var socket_recv_char = neko.Lib.load("openssl", "SSL_recv_char",1);
 	private static var socket_close = neko.Lib.load("std","socket_close",1);
-	private static var SSL_read = neko.Lib.load("opensslndll", "_SSL_read", 3);
+	private static var SSL_read = neko.Lib.load("openssl", "_SSL_read", 3);
 }

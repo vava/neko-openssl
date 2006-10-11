@@ -1,3 +1,0 @@
--neko ../debug/TestHttps.n
---override
--main security.TestHttps
