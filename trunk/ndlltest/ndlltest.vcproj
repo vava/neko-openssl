@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opensslndll.lib"
+				AdditionalDependencies="openssl.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="E:\opensslndll\debug"
 				GenerateDebugInformation="true"

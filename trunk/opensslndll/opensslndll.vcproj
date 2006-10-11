@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ssleay32.lib libeay32.lib neko.lib wsock32.lib"
-				OutputFile="$(OutDir)\$(ProjectName).ndll"
+				OutputFile="$(OutDir)\openssl.ndll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;E:\neko-1.4-win&quot;;&quot;E:\openssl-0.9.8c\out32&quot;"
 				GenerateManifest="true"

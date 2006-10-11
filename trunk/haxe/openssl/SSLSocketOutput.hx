@@ -30,6 +30,6 @@ class SSLSocketOutput extends neko.io.Output {
 	}
 
 	private static var socket_close = neko.Lib.load("std","socket_close",1);
-	private static var socket_send_char = neko.Lib.load("opensslndll","SSL_send_char",2);
-	private static var socket_send = neko.Lib.load("opensslndll", "SSL_send", 4);
+	private static var socket_send_char = neko.Lib.load("openssl","SSL_send_char",2);
+	private static var socket_send = neko.Lib.load("openssl", "SSL_send", 4);
 }

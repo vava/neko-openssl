@@ -171,8 +171,8 @@ class SSLSocket {
 
 	private static var socket_new = neko.Lib.load("std","socket_new",1);
 	private static var socket_close = neko.Lib.load("std","socket_close",1);
-	private static var socket_write = neko.Lib.load("opensslndll","__SSL_write",2);
-	private static var socket_read = neko.Lib.load("opensslndll","__SSL_read",1);
+	private static var socket_write = neko.Lib.load("openssl","__SSL_write",2);
+	private static var socket_read = neko.Lib.load("openssl","__SSL_read",1);
 	private static var host_resolve = neko.Lib.load("std","host_resolve",1);
 	private static var host_reverse = neko.Lib.load("std","host_reverse",1);
 	private static var host_to_string = neko.Lib.load("std","host_to_string",1);
@@ -186,25 +186,25 @@ class SSLSocket {
 	private static var socket_host = neko.Lib.load("std","socket_host",1);
 	private static var socket_set_timeout = neko.Lib.load("std","socket_set_timeout",2);
 	private static var socket_shutdown = neko.Lib.load("std","socket_shutdown",3);
-	private static var SSL_shutdown = neko.Lib.load("opensslndll","_SSL_shutdown",1);	
+	private static var SSL_shutdown = neko.Lib.load("openssl","_SSL_shutdown",1);	
 	private static var socket_set_blocking = neko.Lib.load("std","socket_set_blocking",2);
 	
-	private static var SSL_load_error_strings = neko.Lib.load("opensslndll","_SSL_load_error_strings",0);
-	private static var ERR_load_BIO_strings = neko.Lib.load("opensslndll","_ERR_load_BIO_strings",0);
-	private static var OpenSSL_add_all_algorithms = neko.Lib.load("opensslndll","_OpenSSL_add_all_algorithms",0);
-	private static var SSL_library_init = neko.Lib.load("opensslndll", "_SSL_library_init", 0); 	
-	private static var SSL_CTX_new = neko.Lib.load("opensslndll", "_SSL_CTX_new", 1);
-	private static var SSL_CTX_load_verify_locations = neko.Lib.load("opensslndll", "_SSL_CTX_load_verify_locations", 2);
-	private static var SSLv23_client_method = neko.Lib.load("opensslndll", "_SSLv23_client_method",0);
-	private static var SSL_new = neko.Lib.load("opensslndll", "_SSL_new", 1);
-	private static var BIO_new_socket = neko.Lib.load("opensslndll", "_BIO_new_socket", 2);
-	private static var SSL_set_bio = neko.Lib.load("opensslndll", "_SSL_set_bio", 3);
-	private static var BIO_NOCLOSE = neko.Lib.load("opensslndll", "_BIO_NOCLOSE", 0);
-	private static var SSL_connect = neko.Lib.load("opensslndll", "_SSL_connect", 1);
-	private static var SSL_set_fd = neko.Lib.load ("opensslndll", "_SSL_set_fd", 2);
-	private static var SSL_CTX_set_verify_depth = neko.Lib.load("opensslndll", 
+	private static var SSL_load_error_strings = neko.Lib.load("openssl","_SSL_load_error_strings",0);
+	private static var ERR_load_BIO_strings = neko.Lib.load("openssl","_ERR_load_BIO_strings",0);
+	private static var OpenSSL_add_all_algorithms = neko.Lib.load("openssl","_OpenSSL_add_all_algorithms",0);
+	private static var SSL_library_init = neko.Lib.load("openssl", "_SSL_library_init", 0); 	
+	private static var SSL_CTX_new = neko.Lib.load("openssl", "_SSL_CTX_new", 1);
+	private static var SSL_CTX_load_verify_locations = neko.Lib.load("openssl", "_SSL_CTX_load_verify_locations", 2);
+	private static var SSLv23_client_method = neko.Lib.load("openssl", "_SSLv23_client_method",0);
+	private static var SSL_new = neko.Lib.load("openssl", "_SSL_new", 1);
+	private static var BIO_new_socket = neko.Lib.load("openssl", "_BIO_new_socket", 2);
+	private static var SSL_set_bio = neko.Lib.load("openssl", "_SSL_set_bio", 3);
+	private static var BIO_NOCLOSE = neko.Lib.load("openssl", "_BIO_NOCLOSE", 0);
+	private static var SSL_connect = neko.Lib.load("openssl", "_SSL_connect", 1);
+	private static var SSL_set_fd = neko.Lib.load ("openssl", "_SSL_set_fd", 2);
+	private static var SSL_CTX_set_verify_depth = neko.Lib.load("openssl", 
 													"_SSL_CTX_set_verify_depth", 2);
-	private static var BIO_new = neko.Lib.load("opensslndll", "_BIO_new", 1);
-	private static var BIO_set_fd = neko.Lib.load("opensslndll", "_BIO_set_fd", 3);
-	private static var BIO_s_socket = neko.Lib.load("opensslndll", "_BIO_s_socket", 0);
+	private static var BIO_new = neko.Lib.load("openssl", "_BIO_new", 1);
+	private static var BIO_set_fd = neko.Lib.load("openssl", "_BIO_set_fd", 3);
+	private static var BIO_s_socket = neko.Lib.load("openssl", "_BIO_s_socket", 0);
 }
