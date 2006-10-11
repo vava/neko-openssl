@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="opensslndll"
+	Name="openssl"
 	ProjectGUID="{FCCD5111-455E-46A6-8A51-CC991BCBFA1F}"
 	RootNamespace="opensslndll"
 	Keyword="Win32Proj"
@@ -141,8 +141,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ssleay32.lib libeay32.lib neko.lib wsock32.lib"
+				OutputFile="$(OutDir)\$(ProjectName).ndll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;E:\neko-1.4-win&quot;;&quot;E:\berje\my downloads\openssl-0.9.8c\out32dll&quot;"
+				AdditionalLibraryDirectories="&quot;E:\neko-1.4-win&quot;;&quot;E:\openssl-0.9.8c\out32&quot;"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
