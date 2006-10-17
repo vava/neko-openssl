@@ -7,11 +7,18 @@
 #include "openssl/bio.h"
 #include "openssl/err.h"
 
-__declspec(dllexport) void n_hello(){
+#ifdef WIN32
+__declspec(dllexport)
+#endif
+	
+void n_hello(){
 	printf ("n_hello()\n");
 }
 
-__declspec(dllexport) int mcon () {
+#ifdef WIN32
+__declspec(dllexport)
+#endif
+int mcon () {
 	printf ("Starting...\n"); 
 	SSL_load_error_strings();
 	ERR_load_BIO_strings();
@@ -66,8 +73,10 @@ __declspec(dllexport) int mcon () {
 	BIO_free_all(bio);
 	return 0;
 }
-
-__declspec(dllexport) int testsocketssl (){
+#ifdef WIN32
+__declspec(dllexport)
+#endif
+int testsocketssl (){
 //	int sock = tcp_connect("activate.microsoft.com", 443);
 
 	return 0;
