@@ -1,0 +1,5 @@
+<project name="openssl" url="http://neko-openssl.googlecode.com/svn/" license="LGPL">
+	<user name="berje"/>
+	<description>This project give to neko, haxe possibility to use OpenSSL library, Https request, SSLSocket</description>
+	<version name="1.0">Initial release.</version>
+</project>

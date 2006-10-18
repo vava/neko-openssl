@@ -1,0 +1,1 @@
+winrar a -r -E *.svn openssl.zip ./openssl/*.*
