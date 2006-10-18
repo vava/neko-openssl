@@ -1,4 +1,0 @@
-#!/bin/sh
-export CPLUS_INCLUDE_PATH=/home/home/berje/buildup/openssl-0.9.8d/include:/home/berje/buildup/neko-1.4/vm;
-
-echo "CPLUS_INCLUDE_PATH=" ${CPLUS_INCLUDE_PATH}
