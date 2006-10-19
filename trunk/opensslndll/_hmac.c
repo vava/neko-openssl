@@ -7,9 +7,6 @@
 //		    const unsigned char *d, size_t n, unsigned char *md,
 //		    unsigned int *md_len);
 DEFINE_KIND(k_unsigned_char);
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _HMAC(const value evp_md, const value key, value key_len,
 		   const value d, value n, value md, value md_len) {
 	return alloc_abstract(k_unsigned_char, 
@@ -18,10 +15,6 @@ value _HMAC(const value evp_md, const value key, value key_len,
 		 (unsigned int*) val_data(md_len))
 		);
 }
-
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 
 value _HMAC_EVP_sha1(value key, value d) {
 	unsigned int tmp;

@@ -11,10 +11,6 @@ DEFINE_KIND(k_BIO_METHOD);
 
 //BIO *BIO_new_connect(char* host_port);
 //
-#ifdef WIN32
-__declspec(dllexport)
-#endif
-
 value _BIO_new_connect(value host_port) {
 	void* ptr;
 	ptr = BIO_new_connect(val_string(host_port));
@@ -22,9 +18,6 @@ value _BIO_new_connect(value host_port) {
 }
 //void ERR_load_BIO_strings(void);
 //
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _ERR_load_BIO_strings() {
 	ERR_load_BIO_strings();
 	return VAL_VOID;
@@ -35,9 +28,6 @@ value _ERR_load_BIO_strings() {
 //#define BIO_do_accept(b)	BIO_do_handshake(b)
 //#define BIO_do_handshake(b)	BIO_ctrl(b,BIO_C_DO_STATE_MACHINE,0,NULL)
 
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_do_connect(value bp){
 	//val_check_kind(bp, k_pointer);	
 	BIO* bio_bp = (BIO*)val_data(bp);
@@ -48,10 +38,6 @@ value _BIO_do_connect(value bp){
 
 
 //int	BIO_read(BIO *b, void *data, int len);
-
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_read(value b, value len) {
 	//val_check_kind(b, k_pointer);
 	//val_check_kind(data, k_pointer);
@@ -64,10 +50,6 @@ value _BIO_read(value b, value len) {
 
 
 //#define BIO_set_conn_port(b,port) BIO_ctrl(b,BIO_C_SET_CONNECT,1,(char *)port)
-
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_set_conn_port(value b, value port) {
 	//val_check_kind(b, k_pointer);
 	//val_is_int(port);
@@ -75,10 +57,6 @@ value _BIO_set_conn_port(value b, value port) {
 }
 
 //int	BIO_write(BIO *b, const void *data, int len);
-
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_write(value b, value data, value len) {
 	//val_check_kind(b, k_pointer);
 	//val_check_kind(data, k_pointer);
@@ -88,18 +66,11 @@ value _BIO_write(value b, value data, value len) {
 }
 
 //#define BIO_set_conn_hostname(b,name) BIO_ctrl(b,BIO_C_SET_CONNECT,0,(char *)name)
-
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_set_conn_hostname(value b, value name) {
 	return alloc_best_int(BIO_set_conn_hostname((BIO*) val_data(b), val_string(name)) );
 }
 
 //void	BIO_free_all(BIO *a);
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_free_all(value a) {
 	BIO_free_all((BIO*) val_data(a) );
 	return VAL_VOID;
@@ -107,9 +78,6 @@ value _BIO_free_all(value a) {
 
 #define val_sock(o)  ((int_val)val_data(o))
 //BIO *BIO_new_socket(int sock, int close_flag);
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_new_socket(value sock, value close_flag){
 	int sock_ = ((int_val)val_data(sock));
 	BIO* bio = BIO_new_socket(sock_, val_int(close_flag));
@@ -117,26 +85,17 @@ value _BIO_new_socket(value sock, value close_flag){
 }
 
 //BIO *	BIO_new(BIO_METHOD *type);
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_new(value type) {
 	return alloc_abstract(k_BIO, BIO_new((BIO_METHOD*) val_data(type)));
 }
 
 //#define BIO_set_fd(b,fd,c)	BIO_int_ctrl(b,BIO_C_SET_FD,c,fd)
 //long	BIO_int_ctrl(BIO *bp,int cmd,long larg,int iarg);
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_set_fd(value b, value fd, value c){
 	return alloc_best_int (BIO_int_ctrl((BIO*) val_data(b), BIO_C_SET_FD, val_int(c),val_int(fd)));
 }
 
 //BIO_METHOD *BIO_s_socket(void);
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 value _BIO_s_socket(){
 	return alloc_abstract(k_BIO_METHOD, BIO_s_socket());
 }
