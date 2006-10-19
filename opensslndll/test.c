@@ -2,19 +2,11 @@
 #include "openssl/ssl.h"
 #include "openssl/bio.h"
 #include "openssl/err.h"
-
-
-#ifdef WIN32
 __declspec(dllexport)
-#endif
-	
 void n_hello(){
 	printf ("n_hello()\n");
 }
-
-#ifdef WIN32
 __declspec(dllexport)
-#endif
 int mcon () {
 	BIO* bio;
 	SSL_CTX * ctx;
