@@ -1,8 +1,0 @@
-# 
--neko ../release/TestHttps.n
--main tests.TestHttps
-
---next
--neko ../release/TestSSLSocket.n
--main tests.TestSSLSocket
-
