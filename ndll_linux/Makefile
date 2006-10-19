@@ -17,7 +17,7 @@ libsossl.ndll: $(objects)
 	$(CC) -I $(INCLUDE_PATH_OPENSSL) -I$(INCLUDE_PATH_NEKO) -L /usr/lib/ -L $(SSL_PATH) -shared -o libsossl.ndll -lstdc++ -ldl -lgc -lssl -lcrypto $(objects) $(nekoobjects) $(SSL_PATH)libcrypto.a $(SSL_PATH)libssl.a
 
 %.o: %.cpp
-	$(CC) -I ${INCLUDE_PATH_NEKO} -I ${INCLUDE_PATH_OPENSSL}  -fPIC -fpermissive -c $< -o $@
+	$(CC) -I ${INCLUDE_PATH_NEKO} -I ${INCLUDE_PATH_OPENSSL}  -fPIC -fpermissive -c ../opensslndll/$< -o $@
 
 test: libsossl.ndll openssltest.cpp
 	$(CC) -c -I . -I ${INCLUDE_PATH_NEKO} openssltest.cpp -o openssltest.o

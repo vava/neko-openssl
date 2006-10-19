@@ -4,9 +4,9 @@
 #include "_hmac.h"
 
 int main() {
+	int x;
 	n_hello();
-	int x = mcon();
+	x = mcon();
 	printf ("mcon response = [%d]", x);
-		
 	return 0;
 }

@@ -1,19 +1,12 @@
-#ifdef WIN32
-	#include "stdafx.h"
-#endif
-
 #include "neko.h"
 #include "stdio.h"
+#include "val_void.h"
 
 DEFINE_KIND(kpointer);
 
 value getpointer(value x){
 	return alloc_abstract(kpointer, val_kind(&val_data(x)));
 }
-
-//value getval(value x){
-//	return val_data(x);
-//}
 
 value val_of_NULL(){
 	return val_null;

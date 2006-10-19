@@ -45,7 +45,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -124,7 +124,7 @@
 				AdditionalIncludeDirectories="&quot;E:\openssl-0.9.8c\inc32&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;OPENSSLNDLL_EXPORTS"
 				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
@@ -184,51 +184,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\_bio.cpp"
+				RelativePath=".\_bio.c"
 				>
 			</File>
 			<File
-				RelativePath=".\_evp.cpp"
+				RelativePath=".\_evp.c"
 				>
 			</File>
 			<File
-				RelativePath=".\_hmac.cpp"
+				RelativePath=".\_hmac.c"
 				>
 			</File>
 			<File
-				RelativePath=".\_ssl.cpp"
+				RelativePath=".\_ssl.c"
 				>
 			</File>
 			<File
-				RelativePath=".\c_fun.cpp"
+				RelativePath=".\c_fun.c"
 				>
 			</File>
 			<File
-				RelativePath=".\opensslndll.cpp"
+				RelativePath=".\opensslndll.c"
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp"
+				RelativePath=".\test.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\test.cpp"
+				RelativePath=".\try.c"
 				>
 			</File>
 		</Filter>
@@ -250,39 +234,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\bio.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\err.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\evp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\hmac.h"
-				>
-			</File>
-			<File
 				RelativePath=".\neko.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\opensslconf.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\openssl-0.9.8c\inc32\openssl\ssl.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
 				RelativePath=".\test.h"
+				>
+			</File>
+			<File
+				RelativePath=".\val_void.h"
 				>
 			</File>
 		</Filter>
