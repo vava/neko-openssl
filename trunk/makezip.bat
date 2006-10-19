@@ -1,10 +1,11 @@
+rd temp /S /Q
 del openssl.zip
 mkdir temp
 cd ./temp
 mkdir openssl
 cd openssl
 xcopy ..\..\haxe /S /-Y
-xcopy ..\..\haxelib.xml
+rem xcopy ..\..\haxelib.xml
 mkdir src
 mkdir ndll
 cd ndll
@@ -23,3 +24,4 @@ cd ..\ndlltest
 xcopy ..\..\..\..\ndlltest
 cd ..\..\..\..
 winrar a -r -ep1 -x*\.svn\* -x*.user openssl.zip ./temp/*.*
+rd temp /S /Q
