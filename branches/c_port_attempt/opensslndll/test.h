@@ -1,2 +1,2 @@
-void n_hello();
 int mcon();
+void n_hello();

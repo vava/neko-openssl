@@ -11,17 +11,17 @@ INCLUDE_PATH_OPENSSL=/usr/local/ssl/include
 INCLUDE_PATH_NEKO=/home/berje/buildup/neko-1.4/vm
 SSL_PATH=/usr/local/ssl/lib/
 
-all: libsossl.ndll test
+all: openssl.ndll test
 
-libsossl.ndll: $(objects)
-	$(CC) -I $(INCLUDE_PATH_OPENSSL) -I$(INCLUDE_PATH_NEKO) -L /usr/lib/ -L $(SSL_PATH) -shared -o libsossl.ndll -lstdc++ -ldl -lgc -lssl -lcrypto $(objects) $(nekoobjects) $(SSL_PATH)libcrypto.a $(SSL_PATH)libssl.a
+%.o: ../opensslndll/%.c
+	$(CC) -I ${INCLUDE_PATH_NEKO} -I ${INCLUDE_PATH_OPENSSL}  -fPIC  -c $< -o $@
 
-%.o: %.cpp
-	$(CC) -I ${INCLUDE_PATH_NEKO} -I ${INCLUDE_PATH_OPENSSL}  -fPIC -fpermissive -c ../opensslndll/$< -o $@
+openssl.ndll: $(objects)
+	$(CC) -I $(INCLUDE_PATH_OPENSSL) -I$(INCLUDE_PATH_NEKO) -L /usr/lib/ -L $(SSL_PATH) -shared -o openssl.ndll -lstdc++ -ldl -lgc -lssl -lcrypto $(objects) $(nekoobjects) $(SSL_PATH)libcrypto.a $(SSL_PATH)libssl.a
 
-test: libsossl.ndll openssltest.cpp
-	$(CC) -c -I . -I ${INCLUDE_PATH_NEKO} openssltest.cpp -o openssltest.o
-	$(CC) -o test -L . openssltest.o libsossl.ndll
+test: openssl.ndll ../opensslndll/try.c
+	$(CC) -c -I ../opensslndll/.  -I ${INCLUDE_PATH_NEKO} ../opensslndll/try.c -o try.o
+	$(CC) -o test -L . try.o openssl.ndll
 	./test
 
 clean:
@@ -29,6 +29,6 @@ clean:
 	rm *.ndll
 	rm test
 
-install: libsossl.ndll
-	cp libsossl.ndll /usr/lib/libsossl.ndll
+install: openssl.ndll
+	cp openssl.ndll /usr/lib/openssl.ndll
 

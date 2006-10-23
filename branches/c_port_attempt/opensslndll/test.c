@@ -2,11 +2,13 @@
 #include "openssl/ssl.h"
 #include "openssl/bio.h"
 #include "openssl/err.h"
-__declspec(dllexport)
 void n_hello(){
 	printf ("n_hello()\n");
 }
+#ifdef WIN32
 __declspec(dllexport)
+#endif
+
 int mcon () {
 	BIO* bio;
 	SSL_CTX * ctx;
@@ -50,7 +52,7 @@ int mcon () {
 	if (r_bio_do_connect <= 0) {
 		printf ("Connection failed...[%d]\n",r_bio_do_connect);
 	}
-	wbuf = "get / \n"; 
+	wbuf = "get \ \n"; 
 	r_bio_write =BIO_write(bio, wbuf, 6);
 	printf ("BIO_write[%s] = %d\n",wbuf,r_bio_write);
 	printf("\n 1 \n");
@@ -67,9 +69,6 @@ int mcon () {
 	BIO_free_all(bio);
 	return 0;
 }
-#ifdef WIN32
-__declspec(dllexport)
-#endif
 int testsocketssl (){
 //	int sock = tcp_connect("activate.microsoft.com", 443);
 
