@@ -23,7 +23,7 @@ value _OpenSSL_add_all_algorithms() {
 }
 
 //int SSL_library_init(void );
-static value _SSL_library_init(){
+value _SSL_library_init(){
 	SSL_library_init();
 	return VAL_VOID;
 }
