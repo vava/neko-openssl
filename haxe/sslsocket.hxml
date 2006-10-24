@@ -1,0 +1,8 @@
+# 
+-neko ../debug/TestHttps.n
+-main tests.TestHttps
+
+--next
+-neko ../debug/TestSSLSocket.n
+-main tests.TestSSLSocket
+
