@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;E:\berje\my downloads\neko-1.4\vm&quot;;&quot;E:\openssl-0.9.8c\inc32&quot;"
+				AdditionalIncludeDirectories="C:\Experiment\neko\vm;&quot;C:\Experiment\openssl-0.9.8c\inc32&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;OPENSSLNDLL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				AdditionalDependencies="ssleay32.lib libeay32.lib neko.lib wsock32.lib"
 				OutputFile="$(OutDir)\openssl.ndll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;E:\berje\my downloads\neko-1.4\bin&quot;;&quot;E:\openssl-0.9.8c\out32&quot;"
+				AdditionalLibraryDirectories="C:\Experiment\neko\bin;&quot;C:\Experiment\openssl-0.9.8c\out32&quot;"
 				GenerateManifest="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
