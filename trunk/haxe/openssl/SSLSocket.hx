@@ -1,7 +1,7 @@
 package openssl;
 
-import neko.io.Socket.SocketHandle;
-import neko.io.Socket.Host;
+import neko.net.Socket;
+import neko.net.Host;
 
 enum CTX {
 }

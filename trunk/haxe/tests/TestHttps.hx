@@ -18,7 +18,7 @@ class TestHttps {
 			trace ("https.Status:"+status+"\n");
 		}
 		trace("Before async request");
-		https.asyncRequest(false, output, new openssl.SSLSocket());
+		https.customRequest(false, output, new openssl.SSLSocket());
 		trace("After async request");		
 	}
 }

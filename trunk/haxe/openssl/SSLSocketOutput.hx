@@ -1,6 +1,6 @@
 package openssl;
 
-import neko.io.Socket.SocketHandle;
+import neko.net.Socket;
 import openssl.SSLSocket.SSL;
 import neko.io.Error;
 import neko.io.Eof;
