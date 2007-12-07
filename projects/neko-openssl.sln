@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opensslndll", "opensslndll\opensslndll.vcproj", "{FCCD5111-455E-46A6-8A51-CC991BCBFA1F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opensslndll", "opensslndll.vcproj", "{FCCD5111-455E-46A6-8A51-CC991BCBFA1F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ndlltest", "ndlltest\ndlltest.vcproj", "{3D1029F3-1C8D-4C65-915C-BBCB80EC90F5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ndlltest", "ndlltest.vcproj", "{3D1029F3-1C8D-4C65-915C-BBCB80EC90F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
