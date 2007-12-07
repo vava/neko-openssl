@@ -17,7 +17,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="..\ndll\Windows"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -64,7 +64,7 @@
 				AdditionalDependencies="ssleay32.lib libeay32.lib neko.lib wsock32.lib"
 				OutputFile="$(OutDir)\openssl.ndll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="C:\Experiment\neko\bin;&quot;C:\Experiment\openssl-0.9.8c\out32&quot;"
+				AdditionalLibraryDirectories="D:\Миша\Work\neko\bin;&quot;D:\Миша\Work\neko-openssl\openssl-0.9.8g\out32dll&quot;"
 				GenerateManifest="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
@@ -184,35 +184,35 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\_bio.c"
+				RelativePath="..\src\_bio.c"
 				>
 			</File>
 			<File
-				RelativePath=".\_evp.c"
+				RelativePath="..\src\_evp.c"
 				>
 			</File>
 			<File
-				RelativePath=".\_hmac.c"
+				RelativePath="..\src\_hmac.c"
 				>
 			</File>
 			<File
-				RelativePath=".\_ssl.c"
+				RelativePath="..\src\_ssl.c"
 				>
 			</File>
 			<File
-				RelativePath=".\c_fun.c"
+				RelativePath="..\src\c_fun.c"
 				>
 			</File>
 			<File
-				RelativePath=".\opensslndll.c"
+				RelativePath="..\src\opensslndll.c"
 				>
 			</File>
 			<File
-				RelativePath=".\test.c"
+				RelativePath="..\src\test.c"
 				>
 			</File>
 			<File
-				RelativePath=".\try.c"
+				RelativePath="..\src\try.c"
 				>
 			</File>
 		</Filter>
@@ -222,40 +222,26 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\_bio.h"
+				RelativePath="..\src\_bio.h"
 				>
 			</File>
 			<File
-				RelativePath=".\_hmac.h"
+				RelativePath="..\src\_hmac.h"
 				>
 			</File>
 			<File
-				RelativePath=".\_ssl.h"
+				RelativePath="..\src\_ssl.h"
 				>
 			</File>
 			<File
-				RelativePath=".\neko.h"
+				RelativePath="..\src\neko.h"
 				>
 			</File>
 			<File
-				RelativePath=".\test.h"
-				>
-			</File>
-			<File
-				RelativePath=".\val_void.h"
+				RelativePath="..\src\val_void.h"
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

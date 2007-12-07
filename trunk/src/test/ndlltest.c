@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "../opensslndll/test.h"
+#include "../test.h"
 
 int main()
 {
